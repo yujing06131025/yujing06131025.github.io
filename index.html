@@ -3,37 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First HTML Page</title>
+    <title>Multilingual Page (English and Chinese)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .chinese-section {
+            background-color: #f0f8ff; /* Light blue background */
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            margin-top: 20px;
+        }
+        .english-section {
+            background-color: #f8f8f8; /* Light gray background */
+            padding: 15px;
+            border-left: 5px solid #6c757d;
+            margin-top: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Welcome to My Website!</h1>
+    <header>
+        <h1>Welcome to Our Multilingual Website!</h1>
+        <p>This page demonstrates how to present content in both English and Chinese.</p>
+    </header>
 
-    <p>This is a simple paragraph of text. It demonstrates how to use the `p` tag for paragraphs.</p>
+    <hr>
 
-    <h2>About This Example</h2>
+    <section class="english-section">
+        <h2 lang="en">About This Page (English)</h2>
+        <p lang="en">This section is written primarily in English. We set the default language of the entire document to English using `&lt;html lang="en"&gt;`. When specific parts of the content are in a different language, like Chinese in this example, we use the `lang` attribute on those specific elements.</p>
+        <p lang="en">This approach helps web browsers, screen readers, and search engines correctly interpret the language of different content blocks, improving accessibility and SEO.</p>
+    </section>
 
-    <p>This HTML example includes some common elements you'll find on most webpages:</p>
+    <section class="chinese-section">
+        <h2 lang="zh-Hans">关于本页面 (简体中文)</h2>
+        <p lang="zh-Hans">本节内容主要使用简体中文编写。我们将整个文档的默认语言设置为英语，即通过 `&lt;html lang="en"&gt;` 实现。当内容的特定部分使用其他语言（如本例中的中文）时，我们会在这些特定的元素上使用 `lang` 属性。</p>
+        <p lang="zh-Hans">这种方法有助于网络浏览器、屏幕阅读器和搜索引擎正确识别不同内容块的语言，从而提升可访问性和搜索引擎优化。</p>
+        <ul>
+            <li lang="zh-Hans">示例列表项一</li>
+            <li lang="zh-Hans">示例列表项二</li>
+        </ul>
+    </section>
 
-    <ul>
-        <li>A `DOCTYPE` declaration for document type.</li>
-        <li>An `html` element as the root of the document.</li>
-        <li>A `head` element containing meta-information (like character set and viewport).</li>
-        <li>A `title` element which appears in the browser tab.</li>
-        <li>A `body` element containing the visible content of the page.</li>
-        <li>`h1` and `h2` heading elements for different levels of headings.</li>
-        <li>`p` elements for paragraphs of text.</li>
-        <li>`ul` (unordered list) and `li` (list item) elements for creating lists.</li>
-    </ul>
+    <hr>
 
-    <h3>More About HTML</h3>
-
-    <p>HTML stands for HyperText Markup Language. It's the standard markup language for documents designed to be displayed in a web browser. You can learn a lot more about HTML from resources like:</p>
-
-    <p>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">MDN Web Docs - HTML</a><br>
-        <a href="https://www.w3schools.com/html/" target="_blank">W3Schools - HTML Tutorial</a>
-    </p>
+    <footer>
+        <p lang="en">Thank you for visiting!</p>
+        <p lang="zh-Hans">感谢您的访问！</p>
+    </footer>
 
 </body>
 </html>
