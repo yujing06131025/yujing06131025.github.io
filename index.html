@@ -1,63 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multilingual Page (English and Chinese)</title>
+    <title>多語言頁面（英文和繁體中文）</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* 基本樣式 */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif; /* 使用 Inter 字體 */
             line-height: 1.6;
-            margin: 20px;
-        }
-        .chinese-section {
-            background-color: #f0f8ff; /* Light blue background */
-            padding: 15px;
-            border-left: 5px solid #007bff;
-            margin-top: 20px;
-        }
-        .english-section {
-            background-color: #f8f8f8; /* Light gray background */
-            padding: 15px;
-            border-left: 5px solid #6c757d;
-            margin-top: 20px;
-        }
-        h1, h2 {
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6; /* 淺灰色背景 */
             color: #333;
+        }
+
+        /* 主內容容器 */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px; /* 圓角邊框 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+        }
+
+        /* 語言選擇器樣式 */
+        .language-selector {
+            margin-bottom: 30px;
+            text-align: right;
+        }
+
+        .language-selector label {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .language-selector select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px; /* 圓角邊框 */
+            font-size: 16px;
+            cursor: pointer;
+            outline: none; /* 移除點擊後的邊框 */
+            transition: all 0.3s ease; /* 平滑過渡效果 */
+        }
+
+        .language-selector select:focus {
+            border-color: #007bff; /* 聚焦時邊框顏色 */
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* 聚焦時陰影 */
+        }
+
+        /* 內容區塊樣式 */
+        .content-section {
+            padding: 20px;
+            border-left: 5px solid;
+            margin-top: 25px;
+            border-radius: 8px; /* 圓角邊框 */
+        }
+
+        .traditional-chinese-section {
+            background-color: #e6f7ff; /* 淺藍色背景 */
+            border-color: #007bff; /* 藍色邊框 */
+        }
+
+        .english-section {
+            background-color: #f0f0f0; /* 淺灰色背景 */
+            border-color: #6c757d; /* 深灰色邊框 */
+        }
+
+        /* 標題樣式 */
+        h1, h2, h3 {
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        /* 段落樣式 */
+        p {
+            margin-bottom: 10px;
+        }
+
+        /* 列表樣式 */
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* 分隔線樣式 */
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #eee;
+            margin: 30px 0;
+        }
+
+        /* 程式碼區塊樣式 */
+        .code-example {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto; /* 允許橫向滾動 */
+        }
+        .code-example pre {
+            margin: 0;
+        }
+        .code-example code {
+            display: block;
+            white-space: pre-wrap; /* 自動換行 */
+            word-break: break-all; /* 防止長單詞溢出 */
+        }
+
+        /* PDF 嵌入樣式 */
+        .pdf-viewer {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden; /* 確保 iframe 不溢出邊框 */
+            height: 400px; /* 設定預設高度 */
+            width: 100%; /* 設定寬度為 100% */
+            display: flex; /* 使用 flex 布局居中 iframe */
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* 預留背景色 */
+        }
+        .pdf-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 頁腳樣式 */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+        }
+
+        /* 隱藏元素 */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>歡迎來到我們的多語言網站！</h1>
+            <p>本頁演示如何以英語和繁體中文呈現內容。</p>
+        </header>
 
-    <header>
-        <h1>Welcome to Our Multilingual Website!</h1>
-        <p>This page demonstrates how to present content in both English and Chinese.</p>
-    </header>
+        <hr>
 
-    <hr>
+        <!-- 語言選擇器 -->
+        <div class="language-selector">
+            <label for="languageSelect">選擇語言:</label>
+            <select id="languageSelect">
+                <option value="en">English</option>
+                <option value="zh-Hant" selected>繁體中文</option>
+            </select>
+        </div>
 
-    <section class="english-section">
-        <h2 lang="en">About This Page (English)</h2>
-        <p lang="en">This section is written primarily in English. We set the default language of the entire document to English using `&lt;html lang="en"&gt;`. When specific parts of the content are in a different language, like Chinese in this example, we use the `lang` attribute on those specific elements.</p>
-        <p lang="en">This approach helps web browsers, screen readers, and search engines correctly interpret the language of different content blocks, improving accessibility and SEO.</p>
-    </section>
+        <!-- 英文內容區塊 (初始隱藏) -->
+        <section id="englishContent" class="english-section content-section hidden" data-lang="en">
+            <h2 lang="en">About This Page (English)</h2>
+            <p lang="en">This section is written primarily in English. We allow language selection using the dropdown above. When specific parts of the content are in a different language, like Traditional Chinese in this example, we use the `lang` attribute on those specific elements. This approach helps web browsers, screen readers, and search engines correctly interpret the language of different content blocks, improving accessibility and SEO.</p>
 
-    <section class="chinese-section">
-        <h2 lang="zh-Hans">关于本页面 (简体中文)</h2>
-        <p lang="zh-Hans">本节内容主要使用简体中文编写。我们将整个文档的默认语言设置为英语，即通过 `&lt;html lang="en"&gt;` 实现。当内容的特定部分使用其他语言（如本例中的中文）时，我们会在这些特定的元素上使用 `lang` 属性。</p>
-        <p lang="zh-Hans">这种方法有助于网络浏览器、屏幕阅读器和搜索引擎正确识别不同内容块的语言，从而提升可访问性和搜索引擎优化。</p>
-        <ul>
-            <li lang="zh-Hans">示例列表项一</li>
-            <li lang="zh-Hans">示例列表项二</li>
-        </ul>
-    </section>
+            <h3 lang="en">Code Example (English)</h3>
+            <div class="code-example">
+                <pre><code lang="en">// This is a simple "Hello World" example in JavaScript.
+console.log('Hello World!');</code></pre>
+            </div>
 
-    <hr>
+            <h3 lang="en">PDF Viewer (English)</h3>
+            <div class="pdf-viewer">
+                <iframe src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" loading="lazy" title="Example PDF Document">
+                    <p>It appears your browser does not support PDF viewing directly. You can <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">download the PDF</a> instead.</p>
+                </iframe>
+            </div>
+        </section>
 
-    <footer>
-        <p lang="en">Thank you for visiting!</p>
-        <p lang="zh-Hans">感谢您的访问！</p>
-    </footer>
+        <!-- 繁體中文內容區塊 (預設顯示) -->
+        <section id="traditionalChineseContent" class="traditional-chinese-section content-section" data-lang="zh-Hant">
+            <h2 lang="zh-Hant">關於本頁面 (繁體中文)</h2>
+            <p lang="zh-Hant">本節內容主要使用繁體中文編寫。我們通過上方的下拉菜單允許選擇語言。當內容的特定部分使用其他語言（如本例中的英文）時，我們會在這些特定的元素上使用 `lang` 屬性。</p>
+            <p lang="zh-Hant">這種方法有助於網絡瀏覽器、屏幕閱讀器和搜索引擎正確識別不同內容塊的語言，從而提升可訪問性和搜索引擎優化。</p>
+            <ul>
+                <li lang="zh-Hant">範例列表項一</li>
+                <li lang="zh-Hant">範例列表項二</li>
+            </ul>
 
+            <h3 lang="zh-Hant">程式碼範例 (繁體中文)</h3>
+            <div class="code-example">
+                <pre><code lang="zh-Hant">// 這是一個簡單的 "Hello World" JavaScript 範例。
+console.log('Hello World!');</code></pre>
+            </div>
+
+            <h3 lang="zh-Hant">PDF 檢視器 (繁體中文)</h3>
+            <div class="pdf-viewer">
+                <iframe src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" loading="lazy" title="範例 PDF 文件">
+                    <p>您的瀏覽器似乎不直接支援 PDF 檢視。您可以<a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">下載此 PDF</a>。</p>
+                </iframe>
+            </div>
+        </section>
+
+        <hr>
+
+        <footer>
+            <!-- 頁腳的繁體中文內容 -->
+            <p lang="zh-Hant" class="footer-lang-zh-Hant">感謝您的訪問！</p>
+            <!-- 頁腳的英文內容 (初始隱藏) -->
+            <p lang="en" class="footer-lang-en hidden">Thank you for visiting!</p>
+        </footer>
+    </div>
+
+    <script>
+        // 等待 DOMContentLoaded 事件確保頁面完全載入
+        document.addEventListener('DOMContentLoaded', function() {
+            // 獲取語言選擇下拉菜單
+            const languageSelect = document.getElementById('languageSelect');
+
+            // 獲取英文和繁體中文內容區塊
+            const englishContent = document.getElementById('englishContent');
+            const traditionalChineseContent = document.getElementById('traditionalChineseContent');
+
+            // 獲取頁腳的英文和繁體中文內容
+            const footerEn = document.querySelector('.footer-lang-en');
+            const footerZhHant = document.querySelector('.footer-lang-zh-Hant');
+
+            /**
+             * 根據選定的語言更新頁面內容的顯示。
+             */
+            function updateLanguageDisplay() {
+                const selectedLanguage = languageSelect.value; // 獲取當前選擇的語言值
+
+                if (selectedLanguage === 'en') {
+                    // 如果選擇英文，顯示英文內容，隱藏繁體中文內容
+                    englishContent.classList.remove('hidden');
+                    traditionalChineseContent.classList.add('hidden');
+                    footerEn.classList.remove('hidden');
+                    footerZhHant.classList.add('hidden');
+                } else if (selectedLanguage === 'zh-Hant') {
+                    // 如果選擇繁體中文，顯示繁體中文內容，隱藏英文內容
+                    englishContent.classList.add('hidden');
+                    traditionalChineseContent.classList.remove('hidden');
+                    footerEn.classList.add('hidden');
+                    footerZhHant.classList.remove('hidden');
+                }
+            }
+
+            // 頁面載入時，根據下拉菜單的預設選擇（繁體中文）初始化顯示
+            updateLanguageDisplay();
+
+            // 為語言選擇下拉菜單添加 'change' 事件監聽器
+            // 當下拉菜單的選擇發生變化時，調用 updateLanguageDisplay 函數
+            languageSelect.addEventListener('change', updateLanguageDisplay);
+        });
+    </script>
 </body>
 </html>
