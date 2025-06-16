@@ -1,207 +1,41 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多語言頁面（單一 HTML）</title>
-    <!-- 引入 Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 Inter 字體 -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <!-- 設置 Tailwind CSS 配置 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        /* 由於 Tailwind CSS 已經提供大部分樣式，這裡只保留一些補充或特定樣式 */
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-        }
-        /* 確保程式碼區塊內文本的換行行為 */
-        .whitespace-pre-wrap {
-            white-space: pre-wrap;
-        }
-        .break-all {
-            word-break: break-all;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多語言頁面（單一 HTML）</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Inter 字體 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind 設定 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- 自訂 CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="font-inter antialiased bg-gray-100 text-gray-800 p-5 min-h-screen">
-    <div id="root"></div>
+  <div id="root"></div>
 
-    <!-- 引入 React, ReactDOM 和 Babel CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- React, ReactDOM, Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- 嵌入 React 應用程式程式碼 -->
-    <script type="text/babel">
-        // CodeBlock 元件：用於展示程式碼並提供複製按鈕
-        const CodeBlock = ({ code, language, title }) => {
-            const [copyStatus, setCopyStatus] = React.useState(''); // 複製狀態訊息
-
-            /**
-             * 處理複製按鈕點擊事件，將程式碼複製到剪貼簿。
-             * 使用 document.execCommand('copy') 以確保在 iFrame 環境下的兼容性。
-             */
-            const handleCopy = () => {
-                const textarea = document.createElement('textarea'); // 創建一個暫時的 textarea 元素
-                textarea.value = code; // 將程式碼設定為 textarea 的值
-                document.body.appendChild(textarea); // 將 textarea 加入到文件主體中
-                textarea.select(); // 選取 textarea 中的所有文本
-
-                try {
-                    document.execCommand('copy'); // 執行複製命令
-                    setCopyStatus('已複製！'); // 設定複製成功訊息
-                } catch (err) {
-                    setCopyStatus('複製失敗！'); // 設定複製失敗訊息
-                    console.error('複製程式碼失敗:', err);
-                }
-
-                document.body.removeChild(textarea); // 移除暫時的 textarea 元素
-                setTimeout(() => setCopyStatus(''), 2000); // 2 秒後清除複製狀態訊息
-            };
-
-            return (
-                <div className="mb-6">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-3">{title}</h3>
-                    <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 relative">
-                        <pre><code className={`language-${language} whitespace-pre-wrap break-all`}>{code}</code></pre>
-                        <button
-                            onClick={handleCopy}
-                            className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-1 px-2 rounded-md transition-colors duration-200"
-                        >
-                            {copyStatus || '複製'} {/* 顯示複製狀態或預設文本 */}
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        // PdfViewer 元件：用於嵌入 PDF 文件
-        const PdfViewer = ({ src, title }) => (
-            <div className="mb-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">{title}</h3>
-                <div className="bg-gray-100 border border-gray-300 rounded-lg overflow-hidden h-96 w-full flex justify-center items-center">
-                    {/*
-                        使用 iframe 嵌入 PDF。
-                        請確保您的 PDF 檔案 (例如 example.pdf) 已上傳到 GitHub Pages 儲存庫中，
-                        並且 src 路徑正確 (例如 "./example.pdf")。
-                        這樣可以避免跨域問題。
-                    */}
-                    <iframe
-                        src={src}
-                        loading="lazy" // 延遲載入 PDF，提升頁面效能
-                        title={title} // 提供 iframe 的可訪問性標題
-                        className="w-full h-full border-none"
-                    >
-                        {/* 當瀏覽器不支援 iframe 內嵌 PDF 時，會顯示這段備用內容 */}
-                        <p>您的瀏覽器似乎不直接支援 PDF 檢視。您可以<a href={src}>下載此 PDF</a>。</p>
-                    </iframe>
-                </div>
-            </div>
-        );
-
-        // App 主要元件
-        const App = () => {
-            // 使用 useState 來管理當前選定的語言，預設為繁體中文
-            const [selectedLanguage, setSelectedLanguage] = React.useState('zh-Hant');
-
-            // 處理語言選擇下拉菜單的變化
-            const handleLanguageChange = (event) => {
-                setSelectedLanguage(event.target.value);
-            };
-
-            // 程式碼範例的內容
-            const codeExample = `// 這是一個簡單的 "Hello World" JavaScript 範例。
-console.log('Hello World!');`;
-
-            // PDF 檔案的路徑
-            // ***重要：請將您的 PDF 檔案 (例如 example.pdf) 上傳到 GitHub Pages 儲存庫中***
-            // ***並確保這裡的路徑與您實際的檔案路徑相符。***
-            const pdfPath = './example.pdf'; // 更改為相對路徑
-
-            return (
-                <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8">
-                    {/* 頁首 */}
-                    <header className="mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">歡迎來到我們的多語言網站！</h1>
-                        <p className="text-gray-600">本頁演示如何以英語和繁體中文呈現內容。</p>
-                    </header>
-
-                    <hr className="border-t border-gray-200 my-8" />
-
-                    {/* 語言選擇器 */}
-                    <div className="text-right mb-6">
-                        <label htmlFor="languageSelect" className="font-bold text-gray-700 mr-2">選擇語言:</label>
-                        <select
-                            id="languageSelect"
-                            className="p-2 border border-gray-300 rounded-lg text-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={selectedLanguage}
-                            onChange={handleLanguageChange}
-                        >
-                            <option value="en">English</option>
-                            <option value="zh-Hant">繁體中文</option>
-                        </select>
-                    </div>
-
-                    {/* 英文內容區塊：只有當 selectedLanguage 是 'en' 時才顯示 */}
-                    {selectedLanguage === 'en' && (
-                        <section className="bg-gray-50 border-l-4 border-gray-500 rounded-lg p-6 mb-8 transition-opacity duration-300 ease-in-out opacity-100">
-                            <h2 lang="en" className="text-2xl font-semibold text-gray-800 mb-4">About This Page (English)</h2>
-                            <p lang="en" className="text-gray-700 mb-4">This section is written primarily in English. We allow language selection using the dropdown above. When specific parts of the content are in a different language, like Traditional Chinese in this example, we use the `lang` attribute on those specific elements. This approach helps web browsers, screen readers, and search engines correctly interpret the language of different content blocks, improving accessibility and SEO.</p>
-
-                            {/* 嵌入 CodeBlock 元件 */}
-                            <CodeBlock code={codeExample} language="javascript" title="Code Example (English)" />
-                            {/* 嵌入 PdfViewer 元件 */}
-                            <PdfViewer src={pdfPath} title="PDF Viewer (English)" />
-                        </section>
-                    )}
-
-                    {/* 繁體中文內容區塊：只有當 selectedLanguage 是 'zh-Hant' 時才顯示 */}
-                    {selectedLanguage === 'zh-Hant' && (
-                        <section className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-6 mb-8 transition-opacity duration-300 ease-in-out opacity-100">
-                            <h2 lang="zh-Hant" className="text-2xl font-semibold text-gray-800 mb-4">關於本頁面 (繁體中文)</h2>
-                            <p lang="zh-Hant" className="text-gray-700 mb-4">本節內容主要使用繁體中文編寫。我們通過上方的下拉菜單允許選擇語言。當內容的特定部分使用其他語言（如本例中的英文）時，我們會在這些特定的元素上使用 `lang` 屬性。</p>
-                            <p lang="zh-Hant" className="text-gray-700 mb-4">這種方法有助於網絡瀏覽器、屏幕閱讀器和搜索引擎正確識別不同內容塊的語言，從而提升可訪問性和搜索引擎優化。</p>
-                            <ul className="list-disc ml-5 text-gray-700 mb-4">
-                                <li lang="zh-Hant">範例列表項一</li>
-                                <li lang="zh-Hant">範例列表項二</li>
-                            </ul>
-
-                            {/* 嵌入 CodeBlock 元件 */}
-                            <CodeBlock code={codeExample} language="javascript" title="程式碼範例 (繁體中文)" />
-                            {/* 嵌入 PdfViewer 元件 */}
-                            <PdfViewer src={pdfPath} title="PDF 檢視器 (繁體中文)" />
-                        </section>
-                    )}
-
-                    <hr className="border-t border-gray-200 my-8" />
-
-                    {/* 頁腳 */}
-                    <footer className="text-center text-gray-500 text-sm">
-                        {/* 根據選定的語言顯示不同的頁腳文本 */}
-                        {selectedLanguage === 'en' ? (
-                            <p lang="en">Thank you for visiting!</p>
-                        ) : (
-                            <p lang="zh-Hant">感謝您的訪問！</p>
-                        )}
-                    </footer>
-                </div>
-            );
-        };
-
-        // 將 React 應用程式渲染到 DOM 中的 'root' 元素
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
+  <!-- React 程式碼 -->
+  <script type="text/babel" src="app.js"></script>
 </body>
 </html>
